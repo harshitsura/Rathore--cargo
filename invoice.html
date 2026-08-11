@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Invoice & Receipt Generator - Rathore Cargo</title>
+    <link rel="stylesheet" href="invoice.css">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-area">
+                    <h1>🚚 RATHORE CARGO</h1>
+                    <p class="tagline">Professional Invoice & Receipt Management System</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <button class="nav-btn active" onclick="switchTab('invoice')">📄 Invoice</button>
+            <button class="nav-btn" onclick="switchTab('receipt')">🧾 Receipt</button>
+            <button class="nav-btn" onclick="switchTab('history')">📊 History</button>
+        </nav>
+
+        <div class="main-container">
+            <!-- Invoice Section -->
+            <div id="invoice" class="section active">
+                <h2>Create Professional Invoice</h2>
+                <div class="form-wrapper">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Invoice Number</label>
+                            <input type="text" id="invNum" placeholder="INV-2024-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Invoice Date</label>
+                            <input type="date" id="invDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="invDueDate" required>
+                        </div>
+                    </div>
+
+                    <div class="divider">Client Details</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Client Name *</label>
+                            <input type="text" id="invClientName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="invEmail" placeholder="client@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" id="invPhone" placeholder="9876543210" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>Address *</label>
+                            <input type="text" id="invAddress" placeholder="Street, City, State, Zip" required>
+                        </div>
+                    </div>
+
+                    <div class="divider">Shipment Details</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>From Location *</label>
+                            <input type="text" id="invFrom" placeholder="Bikaner" required>
+                        </div>
+                        <div class="form-group">
+                            <label>To Location *</label>
+                            <input type="text" id="invTo" placeholder="Delhi" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Service Type *</label>
+                            <select id="invService" required>
+                                <option value="">Select Service</option>
+                                <option value="Local Delivery">Local Delivery</option>
+                                <option value="Interstate Shipping">Interstate Shipping</option>
+                                <option value="Special Handling">Special Handling</option>
+                                <option value="Bulk Shipment">Bulk Shipment</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="divider">Pricing</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" id="invQty" placeholder="1" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Price (₹) *</label>
+                            <input type="number" id="invPrice" placeholder="1000" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Discount %</label>
+                            <input type="number" id="invDiscount" placeholder="0" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Tax %</label>
+                            <input type="number" id="invTax" placeholder="18" step="0.01" value="18">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label>Notes</label>
+                            <textarea id="invNotes" placeholder="Additional notes or terms..." rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <button class="btn-generate" onclick="generateInvoice()">✓ Generate Invoice</button>
+                </div>
+            </div>
+
+            <!-- Receipt Section -->
+            <div id="receipt" class="section">
+                <h2>Create Professional Receipt</h2>
+                <div class="form-wrapper">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Receipt Number *</label>
+                            <input type="text" id="rcptNum" placeholder="RCP-2024-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Receipt Date *</label>
+                            <input type="date" id="rcptDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Receipt Time</label>
+                            <input type="time" id="rcptTime">
+                        </div>
+                    </div>
+
+                    <div class="divider">Payer Details</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Payer Name *</label>
+                            <input type="text" id="rcptName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="rcptEmail" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="rcptPhone" placeholder="9876543210">
+                        </div>
+                    </div>
+
+                    <div class="divider">Payment Details</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Amount Paid (₹) *</label>
+                            <input type="number" id="rcptAmount" placeholder="10000" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Method *</label>
+                            <select id="rcptMethod" required>
+                                <option value="">Select Method</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Cheque">Cheque</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="UPI">UPI</option>
+                                <option value="Card">Card</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cheque/Ref No.</label>
+                            <input type="text" id="rcptRefNo" placeholder="Reference Number">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Invoice Reference</label>
+                            <input type="text" id="rcptInvRef" placeholder="INV-2024-001">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description *</label>
+                            <input type="text" id="rcptDesc" placeholder="Payment for cargo shipping services" required>
+                        </div>
+                    </div>
+
+                    <button class="btn-generate" onclick="generateReceipt()">✓ Generate Receipt</button>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div id="history" class="section">
+                <h2>Document History</h2>
+                <div class="history-controls">
+                    <input type="text" id="searchBox" placeholder="Search documents..." onkeyup="searchHistory()">
+                    <button class="btn-danger" onclick="confirmClearHistory()">🗑️ Clear All</button>
+                </div>
+                <div id="historyList" class="history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal" onclick="closeInvoiceModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeInvoiceModal()">&times;</span>
+            <div id="invoicePrint" class="print-area"></div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="printInvoice()">🖨️ Print</button>
+                <button class="btn-success" onclick="downloadPDF('invoice')">📥 Download PDF</button>
+                <button class="btn-secondary" onclick="closeInvoiceModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal" onclick="closeReceiptModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeReceiptModal()">&times;</span>
+            <div id="receiptPrint" class="print-area"></div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="printReceipt()">🖨️ Print</button>
+                <button class="btn-success" onclick="downloadPDF('receipt')">📥 Download PDF</button>
+                <button class="btn-secondary" onclick="closeReceiptModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Rathore Cargo. Professional Invoicing Solutions.</p>
+        <p>📞 +91 8764673455 | 📧 info@ratherocargo.com | 📍 Bikaner, Rajasthan</p>
+    </footer>
+
+    <script src="invoice.js"></script>
+</body>
+</html>
